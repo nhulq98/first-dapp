@@ -1,7 +1,7 @@
 //const provider = new ethers.providers.Web3Provider(window.ethereum, "any");
 const provider = new ethers.providers.Web3Provider(window.ethereum);
 const signer = provider.getSigner();
-const walletAddress = singer.getAddress();
+const walletAddress = signer.getAddress();
 
 // not use ERC-20 standard yet
 const eth = {
@@ -17,6 +17,7 @@ const eth = {
  * Create ETH coin
  */
 async function mintEth() {
+  alert("mint eth");
   await provider.send("eth_requestAccounts", []);
   const ethContract = new ethers.Contract(eth.address, eth.abi, signer);
 
