@@ -20,7 +20,7 @@ const showChainId = document.getElementById('chainId');
  * event listen user click connectEthereumBtn
  */
  connectEthereumBtn.addEventListener('click', () => {
-     alert("connect");
+     //alert("connect");
 //    let ethAddress = getAddress();
 //    showText(ethAddress);
         console.log(provider.getNetwork());
