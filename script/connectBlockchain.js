@@ -83,10 +83,19 @@ async function getAddress2(){
 async function getBalance(walletAddress) {
     let balance = await provider.getBalance(walletAddress);
     
+    // Get the balance of an account (by address or ENS name, if supported by network)
+//    let balance = await provider.getBalance("ethers.eth")
+    console.log(balance);
+// { BigNumber: "82826475815887608" }
+
+// Often you need to format the output to something more user-friendly,
+// such as in ether (instead of wei)
+   //ethers.utils.formatEther(balance)
+
     // we use the code below to convert the balance from wei to eth
     let balanceFomater = ethers.utils.formatEther(balance);
     console.log(balanceFomater);
-    showbalance.innerHTML = balance;
+    showbalance.innerHTML = balanceFomater;
 
     return balanceFomater;
 }

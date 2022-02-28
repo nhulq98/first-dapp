@@ -589,7 +589,7 @@ const { mintModule  } = require("./mint"); //===================================
 },{"./send-eth":"d5HsA","./mint":"isYmK","./connectBlockchain":"5X2iT"}],"d5HsA":[function(require,module,exports) {
 //Import module scope
 const { ethers  } = require("ethers");
-// Declare module
+// Get provider with metamask
 const provider = new ethers.providers.Web3Provider(window.ethereum);
 const singer = provider.getSigner();
 const walletAddress = singer.getAddress();
@@ -26523,6 +26523,8 @@ parcelHelpers.export(exports, "version", ()=>version
 const version = "ethers/5.5.4";
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"isYmK":[function(require,module,exports) {
+// import scope
+const { ethers  } = require("ethers");
 //const provider = new ethers.providers.Web3Provider(window.ethereum, "any");
 const provider = new ethers.providers.Web3Provider(window.ethereum);
 const signer = provider.getSigner();
@@ -26539,7 +26541,6 @@ const eth = {
 /**
  * Create ETH coin
  */ async function mintEth() {
-    alert("mint eth");
     await provider.send("eth_requestAccounts", []);
     const ethContract = new ethers.Contract(eth.address, eth.abi, signer);
     const tx = await ethContract.gimmeSome({
@@ -26550,8 +26551,13 @@ const eth = {
     console.log(`Transaction confirmed in block ${receipt.blockNumber}`);
     console.log(`Gas used: ${receipt.gasUsed.toString()}`);
 }
+const mint = document.querySelector('.mint');
+mint.addEventListener('click', ()=>{
+    alert("mint clock");
+    mintEth();
+});
 
-},{}],"5X2iT":[function(require,module,exports) {
+},{"ethers":"hdHML"}],"5X2iT":[function(require,module,exports) {
 // import scope
 const { ethers  } = require("ethers");
 // A Web3Provider wraps a standard Web3 provider, which is
@@ -26616,10 +26622,17 @@ const showChainId = document.getElementById('chainId');
 }
 async function getBalance(walletAddress) {
     let balance = await provider.getBalance(walletAddress);
+    // Get the balance of an account (by address or ENS name, if supported by network)
+    //    let balance = await provider.getBalance("ethers.eth")
+    console.log(balance);
+    // { BigNumber: "82826475815887608" }
+    // Often you need to format the output to something more user-friendly,
+    // such as in ether (instead of wei)
+    //ethers.utils.formatEther(balance)
     // we use the code below to convert the balance from wei to eth
     let balanceFomater = ethers.utils.formatEther(balance);
     console.log(balanceFomater);
-    showbalance.innerHTML = balance;
+    showbalance.innerHTML = balanceFomater;
     return balanceFomater;
 }
 

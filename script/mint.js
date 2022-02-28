@@ -1,3 +1,6 @@
+// import scope
+const { ethers } = require("ethers");
+
 //const provider = new ethers.providers.Web3Provider(window.ethereum, "any");
 const provider = new ethers.providers.Web3Provider(window.ethereum);
 const signer = provider.getSigner();
@@ -17,7 +20,6 @@ const eth = {
  * Create ETH coin
  */
 async function mintEth() {
-  alert("mint eth");
   await provider.send("eth_requestAccounts", []);
   const ethContract = new ethers.Contract(eth.address, eth.abi, signer);
 
@@ -28,3 +30,12 @@ async function mintEth() {
   console.log(`Transaction confirmed in block ${receipt.blockNumber}`);
   console.log(`Gas used: ${receipt.gasUsed.toString()}`);
 }
+
+const mint = document.querySelector('.mint');
+
+mint.addEventListener('click', ()=>{
+
+  alert("mint clock");
+
+  mintEth();
+});

@@ -1,7 +1,7 @@
 //Import module scope
 const { ethers } = require("ethers");
 
-// Declare module
+// Get provider with metamask
 const provider = new ethers.providers.Web3Provider(window.ethereum);
 const singer = provider.getSigner();
 const walletAddress = singer.getAddress();
