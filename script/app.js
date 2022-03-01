@@ -47,6 +47,7 @@ const {mintModule} = require("./mint");
 // }
 
 // const onClickInstallMetaMask = () => {
+
 //     onboarding.startOnboarding();
 //     loader.style.display = 'block';
 // }
