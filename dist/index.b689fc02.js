@@ -522,7 +522,8 @@ function hmrAcceptRun(bundle, id) {
 //get module from outside this file
 const { connectBlockchain  } = require("./connectBlockchain");
 const { tranferModule  } = require("./send-eth");
-const { mintModule  } = require("./mint"); //===========================================================================
+const { mintModule  } = require("./mint"); // const {switchNetwork} = require("./switchNetwork");
+ //===========================================================================
  // import MetaMaskOnboarding from '@metamask/onboarding';
  // const player = document.querySelector(".success-anim");
  // const onboarding = new MetaMaskOnboarding();
@@ -586,37 +587,80 @@ const { mintModule  } = require("./mint"); //===================================
  // }
  // MetaMaskClientCheck()
 
-},{"./send-eth":"d5HsA","./mint":"isYmK","./connectBlockchain":"5X2iT"}],"d5HsA":[function(require,module,exports) {
-//Import module scope
+},{"./connectBlockchain":"5X2iT","./send-eth":"d5HsA","./mint":"isYmK"}],"5X2iT":[function(require,module,exports) {
+// import scope
 const { ethers  } = require("ethers");
-// Get provider with metamask
+// A Web3Provider wraps a standard Web3 provider, which is
+// what MetaMask injects as window.ethereum into each page
 const provider = new ethers.providers.Web3Provider(window.ethereum);
-const singer = provider.getSigner();
-const walletAddress = singer.getAddress();
-// scope for Global variable
-const tranferEth = document.getElementById('tranferEth');
-tranferEth.addEventListener('click', ()=>{
-    //alert("click tranfer");
-    const receiverAdress = document.getElementById("receiver").value;
-    const amount = document.getElementById("amount").value;
-    sendEth(receiverAdress, amount);
+//const provider = new ethers.providers.JsonRpcProvider('https://xpoubpjbth7p.usemoralis.com:2053/server');
+//get element
+const connectEthereumBtn = document.querySelector('.enableEthereumButton');
+const showAccount = document.querySelector('.showAccount');
+const showbalance = document.getElementById('balance');
+const showNetworkName = document.getElementById('networkName');
+const showChainId = document.getElementById('chainId');
+//run action when click ethereumButton
+/**
+ * event listen user click connectEthereumBtn
+ */ connectEthereumBtn.addEventListener('click', ()=>{
+    console.log(provider.getNetwork());
+    provider.getNetwork().then(function(result) {
+        // here you can use the result of promiseB
+        showNetworkName.innerHTML = result.name;
+        showChainId.innerHTML = result.chainId;
+        console.log("Network name: " + result.name);
+        console.log("Chain ID: " + result.chainId);
+    });
+    //const { name }  = await provider.getNetwork().then(result => result.data);
+    let walletAddress = getAddress2();
+    let balance = getBalance(walletAddress);
 });
 /**
+  * Connect with metamask use javascript
  * 
- * @param {*} receiverAddress 
- * @param {*} amount 
- */ async function sendEth(receiverAddress, amount) {
-    const gasPrice = provider.getGasPrice();
-    const sendObject = {
-        from: walletAddress,
-        to: receiverAddress,
-        value: ethers.utils.parseUnits(amount, "ether"),
-        gasPrice: gasPrice,
-        gasLimit: ethers.utils.hexlify(100000),
-        nonce: provider.getTransactionCount(walletAddress, 'latest')
-    };
-    const transaction = await singer.sendTransaction(sendObject);
-    console.log(transaction);
+ * @returns String this is ETH wallet address
+ */ async function getAddress() {
+    const accounts = await ethereum.request({
+        method: 'eth_requestAccounts'
+    });
+    let account = accounts[0];
+    showText(account);
+//return account;
+}
+/**
+ * DOM text to text element
+ * @param {*} text 
+ */ async function showText(text) {
+    showAccount.innerHTML = text;
+}
+/**
+ * Connect with metamask use Ethers.js
+ */ async function getAddress2() {
+    // // MetaMask requires requesting permission to connect users accounts
+    await provider.send("eth_requestAccounts", []);
+    // // The MetaMask plugin also allows signing transactions to
+    // // send ether and pay to change state within the blockchain.
+    // // For this, you need the account signer...
+    const signer = provider.getSigner();
+    let userAddress = await signer.getAddress();
+    showText(userAddress);
+    return userAddress;
+}
+async function getBalance(walletAddress) {
+    let balance = await provider.getBalance(walletAddress);
+    // Get the balance of an account (by address or ENS name, if supported by network)
+    //    let balance = await provider.getBalance("ethers.eth")
+    console.log(balance);
+    // { BigNumber: "82826475815887608" }
+    // Often you need to format the output to something more user-friendly,
+    // such as in ether (instead of wei)
+    //ethers.utils.formatEther(balance)
+    // we use the code below to convert the balance from wei to eth
+    let balanceFomater = ethers.utils.formatEther(balance);
+    console.log(balanceFomater);
+    showbalance.innerHTML = balanceFomater;
+    return balanceFomater;
 }
 
 },{"ethers":"hdHML"}],"hdHML":[function(require,module,exports) {
@@ -26522,7 +26566,40 @@ parcelHelpers.export(exports, "version", ()=>version
 );
 const version = "ethers/5.5.4";
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"isYmK":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"d5HsA":[function(require,module,exports) {
+//Import module scope
+const { ethers  } = require("ethers");
+// Get provider with metamask
+const provider = new ethers.providers.Web3Provider(window.ethereum);
+const singer = provider.getSigner();
+const walletAddress = singer.getAddress();
+// scope for Global variable
+const tranferEth = document.getElementById('tranferEth');
+tranferEth.addEventListener('click', ()=>{
+    //alert("click tranfer");
+    const receiverAdress = document.getElementById("receiver").value;
+    const amount = document.getElementById("amount").value;
+    sendEth(receiverAdress, amount);
+});
+/**
+ * 
+ * @param {*} receiverAddress 
+ * @param {*} amount 
+ */ async function sendEth(receiverAddress, amount) {
+    const gasPrice = provider.getGasPrice();
+    const sendObject = {
+        from: walletAddress,
+        to: receiverAddress,
+        value: ethers.utils.parseUnits(amount, "ether"),
+        gasPrice: gasPrice,
+        gasLimit: ethers.utils.hexlify(100000),
+        nonce: provider.getTransactionCount(walletAddress, 'latest')
+    };
+    const transaction = await singer.sendTransaction(sendObject);
+    console.log(transaction);
+}
+
+},{"ethers":"hdHML"}],"isYmK":[function(require,module,exports) {
 // import scope
 const { ethers  } = require("ethers");
 //const provider = new ethers.providers.Web3Provider(window.ethereum, "any");
@@ -26556,85 +26633,6 @@ mint.addEventListener('click', ()=>{
     alert("mint clock");
     mintEth();
 });
-
-},{"ethers":"hdHML"}],"5X2iT":[function(require,module,exports) {
-// import scope
-const { ethers  } = require("ethers");
-// A Web3Provider wraps a standard Web3 provider, which is
-// what MetaMask injects as window.ethereum into each page
-const provider = new ethers.providers.Web3Provider(window.ethereum);
-//const provider = new ethers.providers.JsonRpcProvider('https://xpoubpjbth7p.usemoralis.com:2053/server');
-//get element
-const connectEthereumBtn = document.querySelector('.enableEthereumButton');
-const showAccount = document.querySelector('.showAccount');
-const showbalance = document.getElementById('balance');
-const showNetworkName = document.getElementById('networkName');
-const showChainId = document.getElementById('chainId');
-//run action when click ethereumButton
-/**
- * event listen user click connectEthereumBtn
- */ connectEthereumBtn.addEventListener('click', ()=>{
-    alert("connect");
-    //    let ethAddress = getAddress();
-    //    showText(ethAddress);
-    console.log(provider.getNetwork());
-    provider.getNetwork().then(function(result) {
-        // here you can use the result of promiseB
-        showNetworkName.innerHTML = result.name;
-        showChainId.innerHTML = result.chainId;
-        console.log("Network name: " + result.name);
-        console.log("Chain ID: " + result.chainId);
-    });
-    //const { name }  = await provider.getNetwork().then(result => result.data);
-    let walletAddress = getAddress2();
-    let balance = getBalance(walletAddress);
-});
-/**
-  * Connect with metamask use javascript
- * 
- * @returns String this is ETH wallet address
- */ async function getAddress() {
-    const accounts = await ethereum.request({
-        method: 'eth_requestAccounts'
-    });
-    let account = accounts[0];
-    showText(account);
-//return account;
-}
-/**
- * DOM text to text element
- * @param {*} text 
- */ async function showText(text) {
-    showAccount.innerHTML = text;
-}
-/**
- * Connect with metamask use Ethers.js
- */ async function getAddress2() {
-    // // MetaMask requires requesting permission to connect users accounts
-    await provider.send("eth_requestAccounts", []);
-    // // The MetaMask plugin also allows signing transactions to
-    // // send ether and pay to change state within the blockchain.
-    // // For this, you need the account signer...
-    const signer = provider.getSigner();
-    let userAddress = await signer.getAddress();
-    showText(userAddress);
-    return userAddress;
-}
-async function getBalance(walletAddress) {
-    let balance = await provider.getBalance(walletAddress);
-    // Get the balance of an account (by address or ENS name, if supported by network)
-    //    let balance = await provider.getBalance("ethers.eth")
-    console.log(balance);
-    // { BigNumber: "82826475815887608" }
-    // Often you need to format the output to something more user-friendly,
-    // such as in ether (instead of wei)
-    //ethers.utils.formatEther(balance)
-    // we use the code below to convert the balance from wei to eth
-    let balanceFomater = ethers.utils.formatEther(balance);
-    console.log(balanceFomater);
-    showbalance.innerHTML = balanceFomater;
-    return balanceFomater;
-}
 
 },{"ethers":"hdHML"}]},["lO4qg","gRgCV"], "gRgCV", "parcelRequire0cc3")
 

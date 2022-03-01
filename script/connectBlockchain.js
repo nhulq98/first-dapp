@@ -5,8 +5,8 @@ const { ethers } = require("ethers");
 // A Web3Provider wraps a standard Web3 provider, which is
 // what MetaMask injects as window.ethereum into each page
 const provider = new ethers.providers.Web3Provider(window.ethereum);
-
 //const provider = new ethers.providers.JsonRpcProvider('https://xpoubpjbth7p.usemoralis.com:2053/server');
+
 
 //get element
 const connectEthereumBtn = document.querySelector('.enableEthereumButton');
@@ -20,24 +20,21 @@ const showChainId = document.getElementById('chainId');
  * event listen user click connectEthereumBtn
  */
  connectEthereumBtn.addEventListener('click', () => {
-     //alert("connect");
-//    let ethAddress = getAddress();
-//    showText(ethAddress);
-        console.log(provider.getNetwork());
+    console.log(provider.getNetwork());
 
-        provider.getNetwork().then(function(result) {
-            // here you can use the result of promiseB
-            showNetworkName.innerHTML = result.name;
-            showChainId.innerHTML = result.chainId;
+    provider.getNetwork().then(function(result) {
+        // here you can use the result of promiseB
+        showNetworkName.innerHTML = result.name;
+        showChainId.innerHTML = result.chainId;
 
-            console.log("Network name: "+ result.name);
-            console.log("Chain ID: "+ result.chainId);
-        });
-        //const { name }  = await provider.getNetwork().then(result => result.data);
+        console.log("Network name: "+ result.name);
+        console.log("Chain ID: "+ result.chainId);
+    });
+    //const { name }  = await provider.getNetwork().then(result => result.data);
 
-        
-        let walletAddress = getAddress2();
-        let balance = getBalance(walletAddress);
+    
+    let walletAddress = getAddress2();
+    let balance = getBalance(walletAddress);
 });
 
 /**

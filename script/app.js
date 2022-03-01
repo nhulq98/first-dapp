@@ -2,7 +2,7 @@
 const {connectBlockchain} = require("./connectBlockchain");
 const {tranferModule} = require("./send-eth");
 const {mintModule} = require("./mint");
-const {switchNetwork} = require("./switchNetwork");
+// const {switchNetwork} = require("./switchNetwork");
 
 
 
