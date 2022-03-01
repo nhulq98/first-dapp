@@ -1,5 +1,6 @@
 // import scope
-const { ethers } = require("ethers");
+//const { ethers } = require("ethers");
+import { ethers } from 'ethers';
 import MetaMaskOnboarding from '@metamask/onboarding';
 
 const onboarding = new MetaMaskOnboarding();

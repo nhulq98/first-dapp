@@ -1,7 +1,11 @@
 //get module from outside this file
-const {connectBlockchain} = require("./connectBlockchain");
-const {tranferModule} = require("./send-eth");
-const {mintModule} = require("./mint");
+import connectBlockchain from "./connectBlockchain"
+import tranferModule from "./send-eth"
+import mintModule from "./mint"
+
+//const {connectBlockchain} = require("./connectBlockchain");
+//const {tranferModule} = require("./send-eth");
+//const {mintModule} = require("./mint");
 // const {switchNetwork} = require("./switchNetwork");
 
 

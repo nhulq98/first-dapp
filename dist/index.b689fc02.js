@@ -519,10 +519,16 @@ function hmrAcceptRun(bundle, id) {
 }
 
 },{}],"gRgCV":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 //get module from outside this file
-const { connectBlockchain  } = require("./connectBlockchain");
-const { tranferModule  } = require("./send-eth");
-const { mintModule  } = require("./mint"); // const {switchNetwork} = require("./switchNetwork");
+var _connectBlockchain = require("./connectBlockchain");
+var _connectBlockchainDefault = parcelHelpers.interopDefault(_connectBlockchain);
+var _sendEth = require("./send-eth");
+var _sendEthDefault = parcelHelpers.interopDefault(_sendEth);
+var _mint = require("./mint"); //const {connectBlockchain} = require("./connectBlockchain");
+ //const {tranferModule} = require("./send-eth");
+ //const {mintModule} = require("./mint");
+ // const {switchNetwork} = require("./switchNetwork");
  //===========================================================================
  // import MetaMaskOnboarding from '@metamask/onboarding';
  // const player = document.querySelector(".success-anim");
@@ -586,17 +592,19 @@ const { mintModule  } = require("./mint"); // const {switchNetwork} = require(".
  //     }
  // }
  // MetaMaskClientCheck()
+var _mintDefault = parcelHelpers.interopDefault(_mint);
 
-},{"./connectBlockchain":"5X2iT","./send-eth":"d5HsA","./mint":"isYmK"}],"5X2iT":[function(require,module,exports) {
+},{"./connectBlockchain":"5X2iT","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./send-eth":"d5HsA","./mint":"isYmK"}],"5X2iT":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+// import scope
+//const { ethers } = require("ethers");
+var _ethers = require("ethers");
 var _onboarding = require("@metamask/onboarding");
 var _onboardingDefault = parcelHelpers.interopDefault(_onboarding);
-// import scope
-const { ethers  } = require("ethers");
 const onboarding = new _onboardingDefault.default();
 // A Web3Provider wraps a standard Web3 provider, which is
 // what MetaMask injects as window.ethereum into each page
-const provider = new ethers.providers.Web3Provider(window.ethereum);
+const provider = new _ethers.ethers.providers.Web3Provider(window.ethereum);
 //const provider = new ethers.providers.JsonRpcProvider('https://xpoubpjbth7p.usemoralis.com:2053/server');
 //get element
 const connectEthereumBtn = document.querySelector('.enableEthereumButton');
@@ -678,7 +686,7 @@ async function getBalance(walletAddress) {
         // such as in ether (instead of wei)
         //ethers.utils.formatEther(balance)
         // we use the code below to convert the balance from wei to eth
-        let balanceFomater = ethers.utils.formatEther(balance);
+        let balanceFomater = _ethers.ethers.utils.formatEther(balance);
         console.log(balanceFomater);
         showbalance.innerHTML = balanceFomater;
     } catch (error) {
@@ -28416,9 +28424,10 @@ exports.default = Onboarding;
 
 },{}],"d5HsA":[function(require,module,exports) {
 //Import module scope
-const { ethers  } = require("ethers");
+//const { ethers } = require("ethers");
+var _ethers = require("ethers");
 // Get provider with metamask
-const provider = new ethers.providers.Web3Provider(window.ethereum);
+const provider = new _ethers.ethers.providers.Web3Provider(window.ethereum);
 const singer = provider.getSigner();
 const walletAddress = singer.getAddress();
 // scope for Global variable
@@ -28438,9 +28447,9 @@ tranferEth.addEventListener('click', ()=>{
     const sendObject = {
         from: walletAddress,
         to: receiverAddress,
-        value: ethers.utils.parseUnits(amount, "ether"),
+        value: _ethers.ethers.utils.parseUnits(amount, "ether"),
         gasPrice: gasPrice,
-        gasLimit: ethers.utils.hexlify(100000),
+        gasLimit: _ethers.ethers.utils.hexlify(100000),
         nonce: provider.getTransactionCount(walletAddress, 'latest')
     };
     const transaction = await singer.sendTransaction(sendObject);
@@ -28449,9 +28458,10 @@ tranferEth.addEventListener('click', ()=>{
 
 },{"ethers":"hdHML"}],"isYmK":[function(require,module,exports) {
 // import scope
-const { ethers  } = require("ethers");
+//const { ethers } = require("ethers");
+var _ethers = require("ethers"); // apply ES 6
 //const provider = new ethers.providers.Web3Provider(window.ethereum, "any");
-const provider = new ethers.providers.Web3Provider(window.ethereum);
+const provider = new _ethers.ethers.providers.Web3Provider(window.ethereum);
 const signer = provider.getSigner();
 const walletAddress = signer.getAddress();
 // not use ERC-20 standard yet
@@ -28467,7 +28477,7 @@ const eth = {
  * Create ETH coin
  */ async function mintEth() {
     await provider.send("eth_requestAccounts", []);
-    const ethContract = new ethers.Contract(eth.address, eth.abi, signer);
+    const ethContract = new _ethers.ethers.Contract(eth.address, eth.abi, signer);
     const tx = await ethContract.gimmeSome({
         gasPrice: 20000000000
     });

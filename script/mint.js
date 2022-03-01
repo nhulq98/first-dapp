@@ -1,5 +1,6 @@
 // import scope
-const { ethers } = require("ethers");
+//const { ethers } = require("ethers");
+import { ethers } from "ethers"; // apply ES 6
 
 //const provider = new ethers.providers.Web3Provider(window.ethereum, "any");
 const provider = new ethers.providers.Web3Provider(window.ethereum);
