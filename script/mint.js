@@ -20,17 +20,17 @@ const eth = {
 /**
  * Create ETH coin
  */
-async function mintEth() {
-  await provider.send("eth_requestAccounts", []);
-  const ethContract = new ethers.Contract(eth.address, eth.abi, signer);
+// async function mintEth() {
+//   await provider.send("eth_requestAccounts", []);
+//   const ethContract = new ethers.Contract(eth.address, eth.abi, signer);
 
-  const tx = await ethContract.gimmeSome({ gasPrice: 20e9 });
-  console.log(`Transaction hash: ${tx.hash}`);
+//   const tx = await ethContract.gimmeSome({ gasPrice: 20e9 });
+//   console.log(`Transaction hash: ${tx.hash}`);
 
-  const receipt = await tx.wait();
-  console.log(`Transaction confirmed in block ${receipt.blockNumber}`);
-  console.log(`Gas used: ${receipt.gasUsed.toString()}`);
-}
+//   const receipt = await tx.wait();
+//   console.log(`Transaction confirmed in block ${receipt.blockNumber}`);
+//   console.log(`Gas used: ${receipt.gasUsed.toString()}`);
+// }
 
 const mint = document.querySelector('.mint');
 
@@ -38,5 +38,5 @@ mint.addEventListener('click', ()=>{
 
   alert("mint clock");
 
-  mintEth();
+  //mintEth();
 });
