@@ -594,7 +594,7 @@ var _mint = require("./mint"); //const {connectBlockchain} = require("./connectB
  // MetaMaskClientCheck()
 var _mintDefault = parcelHelpers.interopDefault(_mint);
 
-},{"./connectBlockchain":"5X2iT","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./send-eth":"d5HsA","./mint":"isYmK"}],"5X2iT":[function(require,module,exports) {
+},{"./connectBlockchain":"5X2iT","./send-eth":"d5HsA","./mint":"isYmK","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"5X2iT":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 // import scope
 //const { ethers } = require("ethers");
@@ -6898,8 +6898,8 @@ function keccak256(data) {
 }
 
 },{"js-sha3":"7x0z6","@ethersproject/bytes":"htrqZ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"7x0z6":[function(require,module,exports) {
-var process = require("process");
 var global = arguments[3];
+var process = require("process");
 /**
  * [js-sha3]{@link https://github.com/emn178/js-sha3}
  *
@@ -28424,10 +28424,10 @@ exports.default = Onboarding;
 
 },{}],"d5HsA":[function(require,module,exports) {
 //Import module scope
-//const { ethers } = require("ethers");
-var _ethers = require("ethers");
+const { ethers  } = require("ethers");
+//import { ethers } from "ethers";
 // Get provider with metamask
-const provider = new _ethers.ethers.providers.Web3Provider(window.ethereum);
+const provider = new ethers.providers.Web3Provider(window.ethereum);
 const singer = provider.getSigner();
 const walletAddress = singer.getAddress();
 // scope for Global variable
@@ -28447,9 +28447,9 @@ tranferEth.addEventListener('click', ()=>{
     const sendObject = {
         from: walletAddress,
         to: receiverAddress,
-        value: _ethers.ethers.utils.parseUnits(amount, "ether"),
+        value: ethers.utils.parseUnits(amount, "ether"),
         gasPrice: gasPrice,
-        gasLimit: _ethers.ethers.utils.hexlify(100000),
+        gasLimit: ethers.utils.hexlify(100000),
         nonce: provider.getTransactionCount(walletAddress, 'latest')
     };
     const transaction = await singer.sendTransaction(sendObject);

@@ -1,6 +1,6 @@
 //Import module scope
-//const { ethers } = require("ethers");
-import { ethers } from "ethers";
+const { ethers } = require("ethers");
+//import { ethers } from "ethers";
 
 // Get provider with metamask
 const provider = new ethers.providers.Web3Provider(window.ethereum);
