@@ -604,7 +604,7 @@ var _onboardingDefault = parcelHelpers.interopDefault(_onboarding);
 const onboarding = new _onboardingDefault.default();
 // A Web3Provider wraps a standard Web3 provider, which is
 // what MetaMask injects as window.ethereum into each page
-const provider = new _ethers.ethers.providers.Web3Provider(window.ethereum);
+const provider;
 //const provider = new ethers.providers.JsonRpcProvider('https://xpoubpjbth7p.usemoralis.com:2053/server');
 //get element
 const connectEthereumBtn = document.querySelector('.enableEthereumButton');
@@ -624,24 +624,29 @@ const onClickInstallMetaMask = ()=>{
  * event listen user click connectEthereumBtn
  */ connectEthereumBtn.addEventListener('click', ()=>{
     //onClickInstallMetaMask();
-    if (!isMetaMaskInstalled()) // statusText.innerText = 'You need to Install a Wallet';
-    // statusDesc.innerText = 'We recommend the MetaMask wallet.';
-    // btn.innerText = 'Install MetaMask'
-    onClickInstallMetaMask();
-    else try {
-        console.log(provider.getNetwork());
-        provider.getNetwork().then(function(result) {
-            // here you can use the result of promiseB
-            showNetworkName.innerHTML = result.name;
-            showChainId.innerHTML = result.chainId;
-            console.log("Network name: " + result.name);
-            console.log("Chain ID: " + result.chainId);
-        });
-        //const { name }  = await provider.getNetwork().then(result => result.data);
-        let walletAddress = getAddress2();
-        let balance = getBalance(walletAddress);
-    } catch (error) {
-        alert(error);
+    if (!isMetaMaskInstalled()) {
+        // statusText.innerText = 'You need to Install a Wallet';
+        // statusDesc.innerText = 'We recommend the MetaMask wallet.';
+        // btn.innerText = 'Install MetaMask'
+        onClickInstallMetaMask();
+        provider = new _ethers.ethers.providers.Web3Provider(window.ethereum);
+    } else {
+        provider = new _ethers.ethers.providers.Web3Provider(window.ethereum);
+        try {
+            console.log(provider.getNetwork());
+            provider.getNetwork().then(function(result) {
+                // here you can use the result of promiseB
+                showNetworkName.innerHTML = result.name;
+                showChainId.innerHTML = result.chainId;
+                console.log("Network name: " + result.name);
+                console.log("Chain ID: " + result.chainId);
+            });
+            //const { name }  = await provider.getNetwork().then(result => result.data);
+            let walletAddress = getAddress2();
+            let balance = getBalance(walletAddress);
+        } catch (error) {
+            alert(error);
+        }
     }
 });
 /**

@@ -8,7 +8,7 @@ const onboarding = new MetaMaskOnboarding();
 
 // A Web3Provider wraps a standard Web3 provider, which is
 // what MetaMask injects as window.ethereum into each page
-const provider = new ethers.providers.Web3Provider(window.ethereum);
+const provider;
 //const provider = new ethers.providers.JsonRpcProvider('https://xpoubpjbth7p.usemoralis.com:2053/server');
 
 
@@ -39,7 +39,9 @@ const onClickInstallMetaMask = () => {
         // statusDesc.innerText = 'We recommend the MetaMask wallet.';
         // btn.innerText = 'Install MetaMask'
         onClickInstallMetaMask();
+        provider = new ethers.providers.Web3Provider(window.ethereum);
     } else {
+        provider = new ethers.providers.Web3Provider(window.ethereum);
         try{
             console.log(provider.getNetwork());
 
